@@ -11,8 +11,6 @@ RUN apt-get update \
     && cd /avro-tools \
     && wget --no-verbose https://repo1.maven.org/maven2/org/apache/avro/avro-tools/${AVRO_VERSION}/avro-tools-${AVRO_VERSION}.jar
 
-RUN echo "test" # quick test
-
 WORKDIR /avro
 
 ENTRYPOINT java -jar $AVRO_TOOLS_JAR $0 $@
