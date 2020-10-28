@@ -13,7 +13,7 @@ jobs:
         include:
           # Specify version of avro to be latest TAG
           - avro: 1.10.0
-            latest: true
+            latest: brandonstubbs/avrotools:latest
     steps:
       -
         name: Set up QEMU
@@ -33,9 +33,11 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: brandonstubbs/avro-tools:${{ matrix.avro }}
+          tags: |
+            brandonstubbs/avro-tools:${{ matrix.avro }}
+            ${{ matrix.latest }}
           build-args: |
-            AVRO_VERSION=${{ matrix.avro  }}
+            AVRO_VERSION=${{ matrix.avro }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
