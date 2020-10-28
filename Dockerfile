@@ -1,16 +1,17 @@
-FROM dockerfile/java:oracle-java8
-MAINTAINER coderfi@gmail.com
+FROM openjdk:11-slim
+LABEL maintainer=brandon@bos-solutions.co.uk
 
-ENV AVRO_VERSION 1.7.7
-ENV AVRO_TOOLS_JAR /usr/share/java/avro-tools-${AVRO_VERSION}.jar
+ARG AVRO_VERSION=1.10.0
+ENV AVRO_TOOLS_JAR /avro-tools/avro-tools-${AVRO_VERSION}.jar
 
-RUN mkdir -p /share \
- && cd /usr/share/java \
- && wget http://mirrors.gigenet.com/apache/avro/avro-${AVRO_VERSION}/java/avro-tools-${AVRO_VERSION}.jar
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends wget \
+    && mkdir -p /avro \
+    && mkdir -p /avro-tools \
+    && cd /avro-tools \
+    && wget --no-verbose https://repo1.maven.org/maven2/org/apache/avro/avro-tools/${AVRO_VERSION}/avro-tools-${AVRO_VERSION}.jar
 
-WORKDIR /share
+WORKDIR /avro
 
-ADD avro-tools-runner /usr/local/bin/avro-tools-runner
-ENTRYPOINT ["avro-tools-runner"]
-
+ENTRYPOINT java -jar $AVRO_TOOLS_JAR $0 $@
 CMD ["--help"]
