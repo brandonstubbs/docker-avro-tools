@@ -1,0 +1,3 @@
+* Dockerized avro-tools
+
+This has been forked from the original version by [[https://github.com/coderfi/docker-avro-tools][coderfi]]
